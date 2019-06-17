@@ -10,7 +10,9 @@
 
 ### Missing Values
 
-MCAR Missing Values test
+- `Missing completely at random (MCAR)`, data are missing independently of both observed and unobserved data.
+- `Missing at random (MAR)`, given the observed data, data are missing independently of unobserved data.
+- `Missing Not at Random (MNAR)`, missing observations related to values of unobserved data.
 
 ### Geocoding Postcodes
 
@@ -59,6 +61,7 @@ This work very well if you have few categories, however in the case of thousands
 - Gaussian and NB
 - KNN
 - Naive Bayes
+- Perceptron
 - [Neural Net](https://towardsdatascience.com/how-to-build-your-own-neural-network-from-scratch-in-python-68998a08e4f6)
 
 
