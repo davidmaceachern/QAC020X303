@@ -1,41 +1,84 @@
 #%%
 # import dependencies
 from sklearn import preprocessing
-from pygeocoder import Geocoder
 import pandas as pd
-import requests
-import json
+import matplotlib as plt
+import missingno as msno
+%matplotlib inline
+#%% 
+# Load the datasets
+pricing_data = pd.read_csv('../data-science/QAC020X303/data/raw/01_06_2014_until_04_06_2019.csv')
+# We can load the 1gb master csv of postcode data into memory with pandas
+postcode_data = pd.read_csv('../data-science/QAC020X303/data/raw/NSPL_MAY_2019_UK.csv', low_memory=False)
+#%% [markdown]
+# [Finding Missing Data](https://medium.com/ibm-data-science-experience/missing-data-conundrum-exploration-and-imputation-techniques-9f40abe0fd87)
+# [Replacing missing data statistically](https://towardsdatascience.com/6-different-ways-to-compensate-for-missing-values-data-imputation-with-examples-6022d9ca0779)
 #%%
 # -----------------------------------------
+# Missing Values
 # MCAR
+# train_df = pd.read_csv('train_2016_v2.csv', parse_dates=["transactiondate"])
+# properties_df = pd.read_csv('properties_2016.csv')
+# merged_df = pd.merge(train_df,properties_df)
 
+# The nullity matrix gives you a data-dense display which lets you 
+# quickly visually pick out the missing data patterns in the dataset. 
+# Also, the sparkline on the right gives you a summary of the general shape 
+# of the data completeness and an indicator of the rows with maximum and 
+# minimum rows.
+# missing_data = pricing_data.columns[pricing_data.isnull().any()].tolist()
+# msno.matrix(pricing_data[missing_data], (30, 18))
+import matplotlib.pyplot as plt
+msno.matrix(pricing_data)
+fig = plt.figure()
+ax = fig.add_axes([1,1,1,1])
+plt.plot([1,2])
+
+savefig('test.png', bbox_inches='tight')
+# savefig('msno_matrix_pricing_data.png')
+#%%
+# Dealing with missing values
+df.fillna(0) # Replace all the values in the dataframe with 0
+#%%
+# Return the unique values in each column of the dataset.
+for col in pricing_data:
+    # print('Column %s is of type %s and unique values are as follows' % (df[col].name, df[col].dtype))
+    # print(df[col].unique())
+    # print(df[col].count())
+    print(pricing_data[col].isna().count())
 
 #%%
 # -----------------------------------------
 # Merge datasets
 #%%
-pricing_data = pd.read_csv('../data-science/summative-assignment/data/raw/01_06_2014_until_04_06_2019.csv')
-# We can load the 1gb master csv of postcode data into memory with pandas
-postcode_data = pd.read_csv('../data-science/summative-assignment/data/raw/NSPL_MAY_2019_UK.csv', low_memory=False)
-#%%
-# Merge
-left = pd.read_csv('../data-science/summative-assignment/01_06_2014_until_04_06_2019.csv')
-right = df
+left = pricing_data
+right = postcode_data
 merged = pd.merge(left, right, how='inner', left_on='postcode', right_on='pcd')
 #%%
 filename = '../data-science/summative-assignment/data/interim/merged.csv'
 merged.to_csv(filename, encoding='utf-8', index=False)
-#%%
 merged.shape
 #%%
-merged.isna().sum()
 # -----------------------------------------
 # Exploring the dataset
+# Statistics for dataframe
+merged.describe()
+merged.sum()
+merged.cumsum()
+merged.cov()
+merged.corr()
+merged.skew()
+merged.kurt()
+merged.std()
+merged.var()
+merged.mean()
+merged.median()
+merged.max()
+merged.min()
+
 #%%
-# Return the unique values in each column of the dataset.
-for col in df:
-    print('Column %s is of type %s and unique values are as follows' % (df[col].name, df[col].dtype))
-    print(df[col].unique())
+merged.isna().sum()
+
 #%%
 df.shape
 #%% [markdown]
@@ -50,6 +93,7 @@ df.isna().sum()
 #%%
 # For geocoding, we need to submit a string containing an address or location (such as a city) into the geocode function. However, not all strings are formatted in a way that Google’s geo-API can make sense of them. We can text if an input is valid by using the .geocode().valid_address function.
 # Verify that an address is valid (i.e. in Google's system)
+from pygeocoder import Geocoder
 Geocoder.geocode("4207 N Washington Ave, Douglas, AZ 85607").valid_address
 #%% [markdown]
 # Because the output was True, we now know that this is a valid address and thus can print the latitude and longitude coordinates.
@@ -70,6 +114,8 @@ result.route
 # Using an Api to lookup postcodes
 #%%
 # then use the postcode api to bulk lookup our latlongs
+import requests
+import json
 url = 'https://api.postcodes.io/postcodes'
 r = requests.post(url, json=body)
 data_as_text = r.text

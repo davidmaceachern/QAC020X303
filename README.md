@@ -1,10 +1,17 @@
 # summative-assignment
+
 ==============================
 
 ## Datasets
 
 [pricing data](http://landregistry.data.gov.uk/app/ppd/ppd_data?et%5B%5D=lrcommon%3Afreehold&et%5B%5D=lrcommon%3Aleasehold&limit=1000&max_date=4+June+2019&min_date=1+June+2013&nb%5B%5D=true&nb%5B%5D=false&ptype%5B%5D=lrcommon%3Adetached&ptype%5B%5D=lrcommon%3Asemi-detached&ptype%5B%5D=lrcommon%3Aterraced&ptype%5B%5D=lrcommon%3Aflat-maisonette&ptype%5B%5D=lrcommon%3AotherPropertyType&tc%5B%5D=ppd%3AstandardPricePaidTransaction&tc%5B%5D=ppd%3AadditionalPricePaidTransaction&town=london)
 [postcode data](https://geoportal.statistics.gov.uk/datasets/national-statistics-postcode-lookup-may-2019)
+[Borough Profile Data](https://data.london.gov.uk/download/london-borough-profiles/c1693b82-68b1-44ee-beb2-3decf17dc1f8/london-borough-profiles.csv)
+
+## Shapefiles
+
+[GIS Boundary](https://data.london.gov.uk/download/statistical-gis-boundary-files-london/9ba8c833-6370-4b11-abdc-314aa020d5e0/statistical-gis-boundaries-london.zip)
+[London Wards](https://data.london.gov.uk/download/statistical-gis-boundary-files-london/08d31995-dd27-423c-a987-57fe8e952990/London-wards-2018.zip)
 
 ## Preprocessing
 
@@ -13,6 +20,10 @@
 - `Missing completely at random (MCAR)`, data are missing independently of both observed and unobserved data.
 - `Missing at random (MAR)`, given the observed data, data are missing independently of unobserved data.
 - `Missing Not at Random (MNAR)`, missing observations related to values of unobserved data.
+
+### Divide by Borough
+
+- Divide into Datasets by Borough.
 
 ### Geocoding Postcodes
 
